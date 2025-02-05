@@ -5,49 +5,28 @@ from helpers import screen
 
 
 class Post:
-    """
-    A class used to represent post on Nitzagram
-    """
-    def __init__(self): #TODO: add parameters
-        #TODO: write me!
-        pass
+    def __init__(self, user_name, location, like_count, comments, ):
+        self.user_name = user_name
+        self.comments = comments
+        self.location = location
+        self.like_count = like_count
+        self.comments_display_index = 0
 
     def display(self):
-        """
-        Display the Post image/Text, description, location, likes and comments
-        on screen
+        font = pygame.font.SysFont("Tahoma", UI_FONT_SIZE)
+        render_text = font.render(str(self.like_count), True, BLACK)
+        screen.blit(render_text, (LIKE_TEXT_X_POS, LIKE_TEXT_Y_POS))
 
-        :return: None
-        """
-        # TODO: write me!
-        pass
-
+        self.display_comments()
 
     def display_comments(self):
-        """
-        Display comments on post. In case there are more than 4
-        comments, show only 4 comments chosen by reset_comments_display_index
+        font = pygame.font.SysFont("Tahoma", COMMENT_TEXT_SIZE)
+        for i in range(0, min(len(self.comments),NUM_OF_COMMENTS_TO_DISPLAY)):
+            render_text = font.render(self.comments[i], True, GREY)
+            screen.blit(render_text, (FIRST_COMMENT_X_POS,FIRST_COMMENT_Y_POS + COMMENT_LINE_HEIGHT * i))
 
-        :return: None
-        """
-        position_index = self.comments_display_index
-        # If there are more than 4 comments, print "view more comments"
-        if len(self.comments) > NUM_OF_COMMENTS_TO_DISPLAY:
-            comment_font = pygame.font.SysFont('chalkduster.ttf',
-                                               COMMENT_TEXT_SIZE)
-            view_more_comments_button = comment_font.render("view more comments",
-                                                            True, LIGHT_GRAY)
-            screen.blit(view_more_comments_button, (VIEW_MORE_COMMENTS_X_POS,
-                                                    VIEW_MORE_COMMENTS_Y_POS))
 
-        # Display 4 comments starting from comments_display_index
-        for i in range(0, len(self.comments)):
-            if position_index >= len(self.comments):
-                position_index = 0
-            self.comments[position_index].display(i)
-            position_index += 1
-            if i >= NUM_OF_COMMENTS_TO_DISPLAY - 1:
-                break
+
 
 
 
